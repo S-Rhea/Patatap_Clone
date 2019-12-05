@@ -6,8 +6,14 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/1.1.28/howler.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/circles.css">
 
+	</head>
+	<body>
+		<canvas id="myCanvas" resize></canvas>
 		<script type="text/paperscript" canvas="myCanvas">
+			var canvas = document.getElementById("myCanvas");
 			var circles = [];
+			var i = "hello";
+			var letterArray = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 			var keyData = {
 				a: {color: "#986ce0",sound: new Howl({urls: ['sounds/bubbles.mp3']})},
 				b: {color: "#852929",sound: new Howl({urls: ['sounds/moon.mp3']})},
@@ -35,7 +41,21 @@
 				x: {color: "#610e23",sound: new Howl({urls: ['sounds/veil.mp3']})},
 				y: {color: "#0b5713",sound: new Howl({urls: ['sounds/wipe.mp3']})},
 				z: {color: "#083d66",sound: new Howl({urls: ['sounds/zig-zag.mp3']})},
-			}
+			};
+
+			canvas.addEventListener("click",function(){
+				var num = Math.floor(Math.random() * letterArray.length);
+				
+				keyData[letterArray[num]].sound.play();
+					var maxPoint = new Point(view.size.width, view.size.height);
+					var randomPoint = Point.random();
+					var point = maxPoint*randomPoint;
+						
+					newCircle = new Path.Circle(point, 200);
+					newCircle.fillColor = keyData[letterArray[num]].color;
+					circles.push(newCircle);
+			});
+
 			function onKeyDown(event){
 				if(keyData[event.key]){
 					keyData[event.key].sound.play();
@@ -60,8 +80,5 @@
 			}
 			
 		</script>
-	</head>
-	<body>
-		<canvas id="myCanvas" resize></canvas>
 	</body>
 </html>
