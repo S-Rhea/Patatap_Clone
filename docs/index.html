@@ -43,7 +43,7 @@
 				z: {color: "#083d66",sound: new Howl({urls: ['sounds/zig-zag.mp3']})},
 			};
 
-			canvas.addEventListener("click",function(){
+			canvas.addEventListener ("click",function(){
 				var num = Math.floor(Math.random() * letterArray.length);
 				
 				keyData[letterArray[num]].sound.play();
