@@ -8,11 +8,17 @@
 
 	</head>
 	<body>
+		
 		<canvas id="myCanvas" resize></canvas>
+		<div id="instructions">
+			<h2>Mobile/Tablet: Tap Anywhere!</h2>
+			<h2>Computer: Press letter keys!</h2>
+		<div>
 		<script type="text/paperscript" canvas="myCanvas">
 			var canvas = document.getElementById("myCanvas");
 			var circles = [];
-			var i = "hello";
+			var fade = 0;
+			var fadeTarget = document.getElementById("instructions");
 			var letterArray = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 			var keyData = {
 				a: {color: "#986ce0",sound: new Howl({urls: ['sounds/bubbles.mp3']})},
@@ -42,10 +48,17 @@
 				y: {color: "#0b5713",sound: new Howl({urls: ['sounds/wipe.mp3']})},
 				z: {color: "#083d66",sound: new Howl({urls: ['sounds/zig-zag.mp3']})},
 			};
-
-			canvas.addEventListener ("click",function(){
+			
+			function fadeOut(){		
+				fadeTarget.style.opacity = '0';
+				setTimeout(function(){fadeTarget.parentNode.removeChild(fadeTarget);}, 500);
+				fade = 1;
+			}
+			canvas.addEventListener("click",function(){
+				if(fade === 0){
+					fadeOut();
+				}
 				var num = Math.floor(Math.random() * letterArray.length);
-				
 				keyData[letterArray[num]].sound.play();
 					var maxPoint = new Point(view.size.width, view.size.height);
 					var randomPoint = Point.random();
@@ -57,6 +70,9 @@
 			});
 
 			function onKeyDown(event){
+				if(fade === 0){
+					fadeOut();
+				}
 				if(keyData[event.key]){
 					keyData[event.key].sound.play();
 					var maxPoint = new Point(view.size.width, view.size.height);
